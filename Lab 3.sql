@@ -9,3 +9,7 @@ WHERE priceUSD > 0.99;
 select ordno, qty
 FROM orders;
 
+select name, city
+FROM customers
+WHERE city = 'Duluth';
+
