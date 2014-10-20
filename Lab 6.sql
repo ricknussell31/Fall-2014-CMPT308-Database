@@ -12,7 +12,7 @@ where city in (select city
 		     group by city
 		     order by sum(quantity) desc
 		     limit 1) 
-		as "mostcity") 
+		as "mostproductscity");
 
 --2. Get the name and city of customers who live in ANY city that makes the most different kinds of products. --
 
@@ -31,6 +31,19 @@ order by o.dollars desc ;
 
 --5. Show all customer names (in order) and their total ordered, and nothing more. Use coalesce to avoid showing NULLs. --
 
+select c.name, coalesce (sum(dollars), 0)
+from orders o right outer join customers c 
+on c.cid = o.cid
+group by c.name, c.city
+order by c.name;
+
 --6. Show the names of all customers who bought products from agents based in New York along with the names of the products they ordered, and the names of the agents who sold it to them. --
+
+select c.name, p.name, a.name
+from customers c, agents a, products p, orders o
+where o.cid = c.cid
+  and o.pid = p.pid
+  and o.aid = a.aid
+  and a.city = 'New York';    
 
 --7. Write a query to check the accuracy of the dollars column in the Orders table. This means calculating Orders.dollars from data in other tables and comparing those values to the values in Orders.dollars. Return all rows in Orders where Orders.dollars is incorrect, if any. --
